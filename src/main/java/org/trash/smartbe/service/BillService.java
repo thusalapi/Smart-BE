@@ -1,13 +1,15 @@
 package org.trash.smartbe.service;
 
-import org.trash.smartbe.model.Bill;
-
-import java.util.List;
+import org.trash.smartbe.dto.BillDTO;
+import org.trash.smartbe.common.payload.response.ResponseEntityDto;
 
 public interface BillService {
-    List<Bill> getAllBills();
-    Bill getBillById(Long billId);
-    Bill createBill(Bill bill);
-    void deleteBill(Long billId);
-    Bill updateBill(Long billId, Bill updatedBill); // Update method
+    ResponseEntityDto getAllBills();
+    ResponseEntityDto getBillById(Long id);
+    ResponseEntityDto getBillsByWasteAccountId(Long wasteAccountId);
+    ResponseEntityDto getBillsByPaymentStatus(boolean isPaid);
+    ResponseEntityDto createBill(BillDTO billDTO);
+    ResponseEntityDto updateBill(Long id, BillDTO billDTO);
+    ResponseEntityDto deleteBill(Long id);
+    ResponseEntityDto payBill(Long id);
 }

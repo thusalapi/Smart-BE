@@ -1,13 +1,15 @@
+// ResidentService.java
 package org.trash.smartbe.service;
 
-import org.trash.smartbe.model.Resident;
-
-import java.util.List;
+import org.trash.smartbe.dto.ResidentDTO;
+import org.trash.smartbe.common.payload.response.ResponseEntityDto;
 
 public interface ResidentService {
-    List<Resident> getAllResidents();
-    Resident getResidentById(Long residentId);
-    Resident createResident(Resident resident);
-    void deleteResident(Long residentId);
-    Resident updateResident(Long residentId, Resident updatedResident); // Update method
+    ResponseEntityDto getAllResidents();
+    ResponseEntityDto getResidentById(Long id);
+    ResponseEntityDto getResidentByEmail(String email);
+    ResponseEntityDto getResidentByWasteAccountId(Long wasteAccountId);
+    ResponseEntityDto createResident(ResidentDTO residentDTO);
+    ResponseEntityDto updateResident(Long id, ResidentDTO residentDTO);
+    ResponseEntityDto deleteResident(Long id);
 }

@@ -1,46 +1,57 @@
+// BillController.java
 package org.trash.smartbe.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.trash.smartbe.model.Bill;
+import org.trash.smartbe.dto.BillDTO;
 import org.trash.smartbe.service.BillService;
-
-import java.util.List;
+import org.trash.smartbe.common.payload.response.ResponseEntityDto;
 
 @RestController
-@RequestMapping("/api/v1/bills")
+@RequestMapping("/api/bills")
 public class BillController {
 
-    private final BillService billService;
-
     @Autowired
-    public BillController(BillService billService) {
-        this.billService = billService;
-    }
+    private BillService billService;
 
     @GetMapping
-    public List<Bill> getAllBills() {
-        return billService.getAllBills();
+    public ResponseEntity<ResponseEntityDto> getAllBills() {
+        return ResponseEntity.ok(billService.getAllBills());
     }
 
     @GetMapping("/{id}")
-    public Bill getBillById(@PathVariable Long id) {
-        return billService.getBillById(id);
+    public ResponseEntity<ResponseEntityDto> getBillById(@PathVariable Long id) {
+        return ResponseEntity.ok(billService.getBillById(id));
+    }
+
+    @GetMapping("/waste-account/{wasteAccountId}")
+    public ResponseEntity<ResponseEntityDto> getBillsByWasteAccountId(@PathVariable Long wasteAccountId) {
+        return ResponseEntity.ok(billService.getBillsByWasteAccountId(wasteAccountId));
+    }
+
+    @GetMapping("/payment-status")
+    public ResponseEntity<ResponseEntityDto> getBillsByPaymentStatus(@RequestParam boolean isPaid) {
+        return ResponseEntity.ok(billService.getBillsByPaymentStatus(isPaid));
     }
 
     @PostMapping
-    public Bill createBill(@RequestBody Bill bill) {
-        return billService.createBill(bill);
+    public ResponseEntity<ResponseEntityDto> createBill(@RequestBody BillDTO billDTO) {
+        return ResponseEntity.ok(billService.createBill(billDTO));
     }
 
-    @PutMapping("/{id}") // PUT request for updating
-    public Bill updateBill(@PathVariable Long id, @RequestBody Bill bill) {
-        return billService.updateBill(id, bill); // Call the update method
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseEntityDto> updateBill(@PathVariable Long id, @RequestBody BillDTO billDTO) {
+        return ResponseEntity.ok(billService.updateBill(id, billDTO));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBill(@PathVariable Long id) {
-        billService.deleteBill(id);
+    public ResponseEntity<ResponseEntityDto> deleteBill(@PathVariable Long id) {
+        return ResponseEntity.ok(billService.deleteBill(id));
+    }
+
+    @PostMapping("/{id}/pay")
+    public ResponseEntity<ResponseEntityDto> payBill(@PathVariable Long id) {
+        return ResponseEntity.ok(billService.payBill(id));
     }
 }

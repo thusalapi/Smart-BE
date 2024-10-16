@@ -1,28 +1,33 @@
+// Resident.java
 package org.trash.smartbe.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity
-@Table(name = "resident")
+@Table(name = "residents")
 public class Resident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long residentId;
+    private Long id;
 
-    private String name;
-    private String contactInfo;
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String phone;
+
+    @Column(nullable = false)
+    private String address;
 
     @OneToOne
-    private WasteAccount wasteAccount; // Assuming a one-to-one relationship with WasteAccount
-
-    // Getters, setters, constructors
+    @JoinColumn(name = "waste_account_id", unique = true)
+    private WasteAccount wasteAccount;
 }
