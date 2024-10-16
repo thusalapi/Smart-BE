@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface BillDAO {
     List<Bill> findAll();
-    Bill findById(String billId);
+    Bill findById(Long billId);
     Bill save(Bill bill);
-    void deleteById(String billId);
+    Bill update(Long billId, Bill bill);
+    void deleteById(Long billId);
 }

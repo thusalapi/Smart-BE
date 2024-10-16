@@ -1,6 +1,5 @@
 package org.trash.smartbe.repository.impl;
 
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -23,7 +22,7 @@ public class IOTDeviceDAOImpl implements IOTDeviceDAO {
     }
 
     @Override
-    public IOTDevice findById(String deviceId) {
+    public IOTDevice findById(Long deviceId) {
         return entityManager.find(IOTDevice.class, deviceId);
     }
 
@@ -34,10 +33,23 @@ public class IOTDeviceDAOImpl implements IOTDeviceDAO {
     }
 
     @Override
-    public void deleteById(String deviceId) {
+    public void deleteById(Long deviceId) {
         IOTDevice iotDevice = findById(deviceId);
         if (iotDevice != null) {
             entityManager.remove(iotDevice);
         }
+    }
+
+    @Override
+    public IOTDevice update(Long deviceId, IOTDevice updatedIOTDevice) {
+        IOTDevice existingIOTDevice = findById(deviceId);
+        if (existingIOTDevice != null) {
+            existingIOTDevice.setStatus(updatedIOTDevice.isStatus());
+            existingIOTDevice.setReadWasteLevel(updatedIOTDevice.getReadWasteLevel());
+            existingIOTDevice.setWasteBin(updatedIOTDevice.getWasteBin());
+            entityManager.merge(existingIOTDevice);
+            return existingIOTDevice;
+        }
+        return null;
     }
 }

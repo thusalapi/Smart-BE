@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface WasteBinDAO {
     List<WasteBin> findAll();
-    WasteBin findById(String binId);
+    WasteBin findById(Long binId); // Changed from String to Long
     WasteBin save(WasteBin wasteBin);
-    void deleteById(String binId);
+    void deleteById(Long binId); // Changed from String to Long
+    WasteBin update(Long binId, WasteBin updatedWasteBin); // Added update method
 }

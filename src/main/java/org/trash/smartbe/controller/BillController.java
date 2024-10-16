@@ -31,21 +31,21 @@ public class BillController {
 
     // Get a Bill by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Bill> getBillById(@PathVariable String id) {
+    public ResponseEntity<Bill> getBillById(@PathVariable Long id) {
         Bill bill = billService.getBillById(id);
         return bill != null ? new ResponseEntity<>(bill, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // Update a Bill
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Bill> updateBill(@PathVariable Long id, @RequestBody Bill bill) {
-//        Bill updatedBill = billService.updateBill(id, bill);
-//        return updatedBill != null ? new ResponseEntity<>(updatedBill, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-//
-//    // Delete a Bill
+    @PutMapping("/{id}")
+    public ResponseEntity<Bill> updateBill(@PathVariable Long id, @RequestBody Bill bill) {
+        Bill updatedBill = billService.updateBill(id, bill);
+        return updatedBill != null ? new ResponseEntity<>(updatedBill, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // Delete a Bill
 //    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteBill(@PathVariable String id) {
+//    public ResponseEntity<Void> deleteBill(@PathVariable Long id) {
 //        if (billService.deleteBill(id)) {
 //            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //        } else {

@@ -22,7 +22,7 @@ public class TruckDriverDAOImpl implements TruckDriverDAO {
     }
 
     @Override
-    public TruckDriver findById(String driverId) {
+    public TruckDriver findById(Long driverId) { // Changed from String to Long
         return entityManager.find(TruckDriver.class, driverId);
     }
 
@@ -33,10 +33,25 @@ public class TruckDriverDAOImpl implements TruckDriverDAO {
     }
 
     @Override
-    public void deleteById(String driverId) {
+    public void deleteById(Long driverId) { // Changed from String to Long
         TruckDriver driver = findById(driverId);
         if (driver != null) {
             entityManager.remove(driver);
         }
+    }
+
+    @Override
+    public TruckDriver update(Long driverId, TruckDriver updatedDriver) { // Added update method
+        TruckDriver existingDriver = findById(driverId);
+        if (existingDriver != null) {
+            // Update the fields with the new values
+            existingDriver.setName(updatedDriver.getName());
+            existingDriver.setContactInfo(updatedDriver.getContactInfo());
+
+            // Merge the updated driver object
+            entityManager.merge(existingDriver);
+            return existingDriver;
+        }
+        return null; // or throw an exception if you prefer
     }
 }

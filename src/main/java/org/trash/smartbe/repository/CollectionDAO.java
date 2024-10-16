@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface CollectionDAO {
     List<Collection> findAll();
-    Collection findById(String collectionId);
+    Collection findById(Long collectionId);
     Collection save(Collection collection);
-    void deleteById(String collectionId);
+    Collection update(Long collectionId, Collection updatedCollection);
+    void deleteById(Long collectionId);
 }

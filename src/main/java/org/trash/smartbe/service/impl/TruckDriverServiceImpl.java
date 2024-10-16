@@ -24,7 +24,7 @@ public class TruckDriverServiceImpl implements TruckDriverService {
     }
 
     @Override
-    public TruckDriver getTruckDriverById(String driverId) {
+    public TruckDriver getTruckDriverById(Long driverId) { // Changed from String to Long
         return truckDriverDAO.findById(driverId);
     }
 
@@ -34,7 +34,18 @@ public class TruckDriverServiceImpl implements TruckDriverService {
     }
 
     @Override
-    public void deleteTruckDriver(String driverId) {
+    public void deleteTruckDriver(Long driverId) { // Changed from String to Long
         truckDriverDAO.deleteById(driverId);
+    }
+
+    @Override
+    public TruckDriver updateTruckDriver(Long driverId, TruckDriver updatedDriver) { // Added update method
+        TruckDriver existingDriver = truckDriverDAO.findById(driverId);
+        if (existingDriver != null) {
+            existingDriver.setName(updatedDriver.getName());
+            existingDriver.setContactInfo(updatedDriver.getContactInfo());
+            return truckDriverDAO.save(existingDriver); // Save the updated driver
+        }
+        return null; // or throw an exception if preferred
     }
 }

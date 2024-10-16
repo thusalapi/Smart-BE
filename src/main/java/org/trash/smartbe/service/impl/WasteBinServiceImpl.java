@@ -24,7 +24,7 @@ public class WasteBinServiceImpl implements WasteBinService {
     }
 
     @Override
-    public WasteBin getWasteBinById(String binId) {
+    public WasteBin getWasteBinById(Long binId) { // Changed from String to Long
         return wasteBinDAO.findById(binId);
     }
 
@@ -34,7 +34,20 @@ public class WasteBinServiceImpl implements WasteBinService {
     }
 
     @Override
-    public void deleteWasteBin(String binId) {
+    public void deleteWasteBin(Long binId) { // Changed from String to Long
         wasteBinDAO.deleteById(binId);
+    }
+
+    @Override
+    public WasteBin updateWasteBin(Long binId, WasteBin updatedBin) { // Added update method
+        WasteBin existingBin = wasteBinDAO.findById(binId);
+        if (existingBin != null) {
+            existingBin.setWasteType(updatedBin.getWasteType());
+            existingBin.setMaxSize(updatedBin.getMaxSize());
+            existingBin.setCurrentLevel(updatedBin.getCurrentLevel());
+            existingBin.setWasteAccount(updatedBin.getWasteAccount()); // Update the associated waste account
+            return wasteBinDAO.save(existingBin); // Save the updated bin
+        }
+        return null; // or throw an exception if preferred
     }
 }

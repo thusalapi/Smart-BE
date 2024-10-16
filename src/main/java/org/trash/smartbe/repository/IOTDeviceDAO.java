@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface IOTDeviceDAO {
     List<IOTDevice> findAll();
-    IOTDevice findById(String deviceId);
+    IOTDevice findById(Long deviceId);
     IOTDevice save(IOTDevice iotDevice);
-    void deleteById(String deviceId);
+    IOTDevice update(Long deviceId, IOTDevice updatedIOTDevice);
+    void deleteById(Long deviceId);
 }

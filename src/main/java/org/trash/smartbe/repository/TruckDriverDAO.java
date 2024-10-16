@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface TruckDriverDAO {
     List<TruckDriver> findAll();
-    TruckDriver findById(String driverId);
+    TruckDriver findById(Long driverId); // Changed from String to Long
     TruckDriver save(TruckDriver driver);
-    void deleteById(String driverId);
+    void deleteById(Long driverId); // Changed from String to Long
+    TruckDriver update(Long driverId, TruckDriver updatedDriver); // Added update method
 }
