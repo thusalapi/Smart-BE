@@ -24,8 +24,8 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public Resident getResidentById(Long residentId) { // Changed from String to Long
-        return residentDAO.findById(residentId);
+    public Resident getResidentById(Long residentId) {
+        return residentDAO.findById(residentId).orElse(null); // Use Optional for safety
     }
 
     @Override
@@ -34,20 +34,18 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public void deleteResident(Long residentId) { // Changed from String to Long
+    public void deleteResident(Long residentId) {
         residentDAO.deleteById(residentId);
     }
 
     @Override
-    public Resident updateResident(Long residentId, Resident updatedResident) { // Added update method
-        Resident existingResident = residentDAO.findById(residentId);
+    public Resident updateResident(Long residentId, Resident updatedResident) {
+        Resident existingResident = residentDAO.findById(residentId).orElse(null);
         if (existingResident != null) {
             existingResident.setName(updatedResident.getName());
             existingResident.setContactInfo(updatedResident.getContactInfo());
-            existingResident.setWasteAccount(updatedResident.getWasteAccount()); // Optional, depending on your use case
-            existingResident.setSpecialCollections(updatedResident.getSpecialCollections()); // Optional, depending on your use case
-            existingResident.setRegistrationDate(updatedResident.getRegistrationDate()); // Optional, depending on your use case
-            return residentDAO.save(existingResident); // Save the updated resident
+            existingResident.setWasteAccount(updatedResident.getWasteAccount());
+            return residentDAO.save(existingResident);
         }
         return null; // or throw an exception if preferred
     }

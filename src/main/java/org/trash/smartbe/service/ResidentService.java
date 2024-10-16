@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ResidentService {
     List<Resident> getAllResidents();
-    Resident getResidentById(Long residentId); // Changed from String to Long
+    Resident getResidentById(Long residentId);
     Resident createResident(Resident resident);
-    void deleteResident(Long residentId); // Changed from String to Long
-    Resident updateResident(Long residentId, Resident updatedResident); // Added update method
+    void deleteResident(Long residentId);
+    Resident updateResident(Long residentId, Resident updatedResident); // Update method
 }

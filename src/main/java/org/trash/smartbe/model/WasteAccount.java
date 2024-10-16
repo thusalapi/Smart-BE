@@ -1,4 +1,5 @@
 package org.trash.smartbe.model;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,10 +27,11 @@ public class WasteAccount {
     @OneToOne(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
     private Resident resident;
 
-    @OneToMany(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
-    private List<Bill> bills;
+    @OneToOne(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
+    private Bill bills;
 
-    @OneToMany(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
-    private List<WasteBin> wasteBins;
+    @OneToOne(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
+    private WasteBin wasteBins;
 
+    // Getters, setters, constructors
 }

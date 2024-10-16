@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface WasteAccountService {
     List<WasteAccount> getAllWasteAccounts();
-    WasteAccount getWasteAccountById(Long accountId); // Changed from String to Long
+    WasteAccount getWasteAccountById(Long accountId);
     WasteAccount createWasteAccount(WasteAccount account);
-    void deleteWasteAccount(Long accountId); // Changed from String to Long
-    WasteAccount updateWasteAccount(Long accountId, WasteAccount updatedAccount); // Added update method
+    void deleteWasteAccount(Long accountId);
+    WasteAccount updateWasteAccount(Long accountId, WasteAccount updatedAccount); // Update method
 }

@@ -12,44 +12,35 @@ import java.util.List;
 @RequestMapping("/api/v1/bills")
 public class BillController {
 
+    private final BillService billService;
+
     @Autowired
-    private BillService billService;
-
-    // Create a new Bill
-    @PostMapping
-    public ResponseEntity<Bill> createBill(@RequestBody Bill bill) {
-        Bill createdBill = billService.createBill(bill);
-        return new ResponseEntity<>(createdBill, HttpStatus.CREATED);
+    public BillController(BillService billService) {
+        this.billService = billService;
     }
 
-    // Get all Bills
     @GetMapping
-    public ResponseEntity<List<Bill>> getAllBills() {
-        List<Bill> bills = billService.getAllBills();
-        return new ResponseEntity<>(bills, HttpStatus.OK);
+    public List<Bill> getAllBills() {
+        return billService.getAllBills();
     }
 
-    // Get a Bill by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Bill> getBillById(@PathVariable Long id) {
-        Bill bill = billService.getBillById(id);
-        return bill != null ? new ResponseEntity<>(bill, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public Bill getBillById(@PathVariable Long id) {
+        return billService.getBillById(id);
     }
 
-    // Update a Bill
-    @PutMapping("/{id}")
-    public ResponseEntity<Bill> updateBill(@PathVariable Long id, @RequestBody Bill bill) {
-        Bill updatedBill = billService.updateBill(id, bill);
-        return updatedBill != null ? new ResponseEntity<>(updatedBill, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PostMapping
+    public Bill createBill(@RequestBody Bill bill) {
+        return billService.createBill(bill);
     }
 
-    // Delete a Bill
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteBill(@PathVariable Long id) {
-//        if (billService.deleteBill(id)) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @PutMapping("/{id}") // PUT request for updating
+    public Bill updateBill(@PathVariable Long id, @RequestBody Bill bill) {
+        return billService.updateBill(id, bill); // Call the update method
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteBill(@PathVariable Long id) {
+        billService.deleteBill(id);
+    }
 }

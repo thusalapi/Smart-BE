@@ -1,13 +1,8 @@
 package org.trash.smartbe.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.trash.smartbe.model.Resident;
 
-import java.util.List;
-
-public interface ResidentDAO {
-    List<Resident> findAll();
-    Resident findById(Long residentId);
-    Resident save(Resident resident);
-    void deleteById(Long residentId);
-    Resident update(Long residentId, Resident updatedResident);
+public interface ResidentDAO extends JpaRepository<Resident, Long> {
+//    Resident findById(Long residentId); // Custom method if necessary
 }

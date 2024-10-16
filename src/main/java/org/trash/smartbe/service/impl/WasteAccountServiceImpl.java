@@ -24,8 +24,8 @@ public class WasteAccountServiceImpl implements WasteAccountService {
     }
 
     @Override
-    public WasteAccount getWasteAccountById(Long accountId) { // Changed from String to Long
-        return wasteAccountDAO.findById(accountId);
+    public WasteAccount getWasteAccountById(Long accountId) {
+        return wasteAccountDAO.findById(accountId).orElse(null); // Use Optional for safety
     }
 
     @Override
@@ -34,17 +34,19 @@ public class WasteAccountServiceImpl implements WasteAccountService {
     }
 
     @Override
-    public void deleteWasteAccount(Long accountId) { // Changed from String to Long
+    public void deleteWasteAccount(Long accountId) {
         wasteAccountDAO.deleteById(accountId);
     }
 
     @Override
-    public WasteAccount updateWasteAccount(Long accountId, WasteAccount updatedAccount) { // Added update method
-        WasteAccount existingAccount = wasteAccountDAO.findById(accountId);
+    public WasteAccount updateWasteAccount(Long accountId, WasteAccount updatedAccount) {
+        WasteAccount existingAccount = wasteAccountDAO.findById(accountId).orElse(null);
         if (existingAccount != null) {
             existingAccount.setAddress(updatedAccount.getAddress());
-            // Add any additional fields you may want to update here
-            return wasteAccountDAO.save(existingAccount); // Save the updated account
+            existingAccount.setResident(updatedAccount.getResident());
+            existingAccount.setBills(updatedAccount.getBills());
+            existingAccount.setWasteBins(updatedAccount.getWasteBins());
+            return wasteAccountDAO.save(existingAccount);
         }
         return null; // or throw an exception if preferred
     }

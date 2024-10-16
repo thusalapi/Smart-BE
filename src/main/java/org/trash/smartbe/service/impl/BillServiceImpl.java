@@ -24,8 +24,8 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public Bill getBillById(Long billId) { // Changed from String to Long
-        return billDAO.findById(billId);
+    public Bill getBillById(Long billId) {
+        return billDAO.findById(billId).orElse(null);
     }
 
     @Override
@@ -34,18 +34,17 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public void deleteBill(Long billId) { // Changed from String to Long
+    public void deleteBill(Long billId) {
         billDAO.deleteById(billId);
     }
 
     @Override
-    public Bill updateBill(Long billId, Bill updatedBill) { // Added update method
-        Bill existingBill = billDAO.findById(billId);
+    public Bill updateBill(Long billId, Bill updatedBill) {
+        Bill existingBill = billDAO.findById(billId).orElse(null);
         if (existingBill != null) {
-            // Update fields from updatedBill to existingBill here
-            existingBill.setDate(updatedBill.getDate());
+            existingBill.setIssueDate(updatedBill.getIssueDate());
             existingBill.setAmount(updatedBill.getAmount());
-            existingBill.setWasteAccount(updatedBill.getWasteAccount()); // Optional, depending on your use case
+            existingBill.setWasteAccount(updatedBill.getWasteAccount());
             return billDAO.save(existingBill); // Save the updated bill
         }
         return null; // or throw an exception if preferred
