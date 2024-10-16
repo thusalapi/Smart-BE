@@ -27,11 +27,11 @@ public class WasteAccount {
     @OneToOne(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
     private Resident resident;
 
-    @OneToOne(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
-    private Bill bills;
+    @OneToMany(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
+    private List<Bill> bills;
 
-    @OneToOne(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
-    private WasteBin wasteBins;
+    @OneToMany(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
+    private List<WasteBin> wasteBins;
 
     // Getters, setters, constructors
 }

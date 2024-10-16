@@ -25,7 +25,7 @@ public class Bill {
     private Date issueDate;
     private float amount;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "waste_account_id")
     private WasteAccount wasteAccount;
 
