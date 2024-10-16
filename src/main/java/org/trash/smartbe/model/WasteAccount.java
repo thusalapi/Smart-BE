@@ -1,30 +1,21 @@
+// WasteAccount.java
 package org.trash.smartbe.model;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
-@Table(name = "waste_account")
+@Table(name = "waste_accounts")
 public class WasteAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accountId;
+    private Long id;
 
-    private String address;
-
-    @OneToOne(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
-    private Resident resident;
+    @Column(unique = true, nullable = false)
+    private String accountNumber;
 
     @OneToMany(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
     private List<Bill> bills;
@@ -32,4 +23,6 @@ public class WasteAccount {
     @OneToMany(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
     private List<WasteBin> wasteBins;
 
+    @OneToOne(mappedBy = "wasteAccount", cascade = CascadeType.ALL)
+    private Resident resident;
 }

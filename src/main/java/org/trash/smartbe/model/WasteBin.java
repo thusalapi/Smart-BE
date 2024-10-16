@@ -1,32 +1,30 @@
+// WasteBin.java
 package org.trash.smartbe.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
+@Data
 @Entity
-@Table(name = "waste_bin")
+@Table(name = "waste_bins")
 public class WasteBin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long binId;
+    private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String binNumber;
+
+    @Column(nullable = false)
+    private Double capacity;
+
+    @Column(nullable = false)
+    private Double currentLevel;
+
+    @Column(nullable = false)
     private String wasteType;
-    private float maxSize;
-    private float currentLevel;
 
     @ManyToOne
-    @JoinColumn(name = "waste_account_id")
+    @JoinColumn(name = "waste_account_id", nullable = false)
     private WasteAccount wasteAccount;
-
-    // Getters, setters, constructors
 }

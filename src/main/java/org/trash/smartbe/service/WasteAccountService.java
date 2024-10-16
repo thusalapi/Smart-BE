@@ -1,13 +1,14 @@
+// WasteAccountService.java
 package org.trash.smartbe.service;
 
-import org.trash.smartbe.model.WasteAccount;
-
-import java.util.List;
+import org.trash.smartbe.dto.WasteAccountDTO;
+import org.trash.smartbe.common.payload.response.ResponseEntityDto;
 
 public interface WasteAccountService {
-    List<WasteAccount> getAllWasteAccounts();
-    WasteAccount getWasteAccountById(Long accountId); // Changed from String to Long
-    WasteAccount createWasteAccount(WasteAccount account);
-    void deleteWasteAccount(Long accountId); // Changed from String to Long
-    WasteAccount updateWasteAccount(Long accountId, WasteAccount updatedAccount); // Added update method
+    ResponseEntityDto getAllWasteAccounts();
+    ResponseEntityDto getWasteAccountById(Long id);
+    ResponseEntityDto getWasteAccountByAccountNumber(String accountNumber);
+    ResponseEntityDto createWasteAccount(WasteAccountDTO wasteAccountDTO);
+    ResponseEntityDto updateWasteAccount(Long id, WasteAccountDTO wasteAccountDTO);
+    ResponseEntityDto deleteWasteAccount(Long id);
 }

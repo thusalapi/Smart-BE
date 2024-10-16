@@ -1,13 +1,17 @@
+// WasteBinService.java
 package org.trash.smartbe.service;
 
-import org.trash.smartbe.model.WasteBin;
-
-import java.util.List;
+import org.trash.smartbe.dto.WasteBinDTO;
+import org.trash.smartbe.common.payload.response.ResponseEntityDto;
 
 public interface WasteBinService {
-    List<WasteBin> getAllWasteBins();
-    WasteBin getWasteBinById(Long binId); // Changed from String to Long
-    WasteBin createWasteBin(WasteBin bin);
-    void deleteWasteBin(Long binId); // Changed from String to Long
-    WasteBin updateWasteBin(Long binId, WasteBin updatedBin); // Added update method
+    ResponseEntityDto getAllWasteBins();
+    ResponseEntityDto getWasteBinById(Long id);
+    ResponseEntityDto getWasteBinByBinNumber(String binNumber);
+    ResponseEntityDto getWasteBinsByWasteAccountId(Long wasteAccountId);
+    ResponseEntityDto getWasteBinsByWasteType(String wasteType);
+    ResponseEntityDto createWasteBin(WasteBinDTO wasteBinDTO);
+    ResponseEntityDto updateWasteBin(Long id, WasteBinDTO wasteBinDTO);
+    ResponseEntityDto deleteWasteBin(Long id);
+    ResponseEntityDto updateWasteBinLevel(Long id, Double newLevel);
 }

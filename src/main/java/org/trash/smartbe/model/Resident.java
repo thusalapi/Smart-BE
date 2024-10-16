@@ -1,39 +1,33 @@
+// Resident.java
 package org.trash.smartbe.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.Date;
-import java.util.List;
-
-@Getter
-@Setter
+@Data
 @Entity
+@Table(name = "residents")
 public class Resident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long residentId;
+    private Long id;
 
-    private String name;
-    private String contactInfo;
+    @Column(nullable = false)
+    private String firstName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String phone;
+
+    @Column(nullable = false)
+    private String address;
+
+    @OneToOne
+    @JoinColumn(name = "waste_account_id", unique = true)
     private WasteAccount wasteAccount;
-
-    // Special collections for a resident
-    @OneToMany(mappedBy = "resident", cascade = CascadeType.ALL)
-    private List<SpecialCollection> specialCollections;
-
-    private Date registrationDate;
-
-
 }
-

@@ -1,28 +1,30 @@
+// Bill.java
 package org.trash.smartbe.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.Data;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @Entity
+@Table(name = "bills")
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long billId;
+    private Long id;
 
-    private Date date;
-    private float amount;
+    @Column(nullable = false)
+    private LocalDate billDate;
+
+    @Column(nullable = false)
+    private BigDecimal amount;
+
+    @Column(nullable = false)
+    private boolean isPaid;
 
     @ManyToOne
+    @JoinColumn(name = "waste_account_id", nullable = false)
     private WasteAccount wasteAccount;
-
-    // Getters, setters, constructors
 }

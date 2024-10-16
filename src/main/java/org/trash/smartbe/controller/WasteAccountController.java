@@ -1,55 +1,47 @@
+// WasteAccountController.java
 package org.trash.smartbe.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.trash.smartbe.model.WasteAccount;
+import org.trash.smartbe.dto.WasteAccountDTO;
 import org.trash.smartbe.service.WasteAccountService;
-
-import java.util.List;
+import org.trash.smartbe.common.payload.response.ResponseEntityDto;
 
 @RestController
-@RequestMapping("/api/v1/waste-accounts")
+@RequestMapping("/api/waste-accounts")
 public class WasteAccountController {
 
     @Autowired
     private WasteAccountService wasteAccountService;
 
-    // Create a new Waste Account
-    @PostMapping
-    public ResponseEntity<WasteAccount> createWasteAccount(@RequestBody WasteAccount wasteAccount) {
-        WasteAccount createdAccount = wasteAccountService.createWasteAccount(wasteAccount);
-        return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
-    }
-
-    // Get all Waste Accounts
     @GetMapping
-    public ResponseEntity<List<WasteAccount>> getAllWasteAccounts() {
-        List<WasteAccount> wasteAccounts = wasteAccountService.getAllWasteAccounts();
-        return new ResponseEntity<>(wasteAccounts, HttpStatus.OK);
+    public ResponseEntity<ResponseEntityDto> getAllWasteAccounts() {
+        return ResponseEntity.ok(wasteAccountService.getAllWasteAccounts());
     }
 
-    // Get a Waste Account by ID
     @GetMapping("/{id}")
-    public ResponseEntity<WasteAccount> getWasteAccountById(@PathVariable Long id) {
-        WasteAccount wasteAccount = wasteAccountService.getWasteAccountById(id);
-        return wasteAccount != null ? new ResponseEntity<>(wasteAccount, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseEntityDto> getWasteAccountById(@PathVariable Long id) {
+        return ResponseEntity.ok(wasteAccountService.getWasteAccountById(id));
     }
 
-    // Update a Waste Account
+    @GetMapping("/account/{accountNumber}")
+    public ResponseEntity<ResponseEntityDto> getWasteAccountByAccountNumber(@PathVariable String accountNumber) {
+        return ResponseEntity.ok(wasteAccountService.getWasteAccountByAccountNumber(accountNumber));
+    }
+
+    @PostMapping
+    public ResponseEntity<ResponseEntityDto> createWasteAccount(@RequestBody WasteAccountDTO wasteAccountDTO) {
+        return ResponseEntity.ok(wasteAccountService.createWasteAccount(wasteAccountDTO));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<WasteAccount> updateWasteAccount(@PathVariable Long id, @RequestBody WasteAccount wasteAccount) {
-        WasteAccount updatedAccount = wasteAccountService.updateWasteAccount(id, wasteAccount);
-        return updatedAccount != null ? new ResponseEntity<>(updatedAccount, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseEntityDto> updateWasteAccount(@PathVariable Long id, @RequestBody WasteAccountDTO wasteAccountDTO) {
+        return ResponseEntity.ok(wasteAccountService.updateWasteAccount(id, wasteAccountDTO));
     }
 
-    // Delete a Waste Account
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteWasteAccount(@PathVariable Long id) { // Change Long to String
-//        boolean isDeleted = wasteAccountService.deleteWasteAccount(id);
-//        return isDeleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseEntityDto> deleteWasteAccount(@PathVariable Long id) {
+        return ResponseEntity.ok(wasteAccountService.deleteWasteAccount(id));
+    }
 }
