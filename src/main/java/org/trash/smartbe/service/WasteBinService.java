@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface WasteBinService {
     List<WasteBin> getAllWasteBins();
-    WasteBin getWasteBinById(String binId);
+    WasteBin getWasteBinById(Long binId); // Changed from String to Long
     WasteBin createWasteBin(WasteBin bin);
-    void deleteWasteBin(String binId);
+    void deleteWasteBin(Long binId); // Changed from String to Long
+    WasteBin updateWasteBin(Long binId, WasteBin updatedBin); // Added update method
 }

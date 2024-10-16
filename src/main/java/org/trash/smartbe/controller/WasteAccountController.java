@@ -31,23 +31,23 @@ public class WasteAccountController {
 
     // Get a Waste Account by ID
     @GetMapping("/{id}")
-    public ResponseEntity<WasteAccount> getWasteAccountById(@PathVariable String id) {
+    public ResponseEntity<WasteAccount> getWasteAccountById(@PathVariable Long id) {
         WasteAccount wasteAccount = wasteAccountService.getWasteAccountById(id);
         return wasteAccount != null ? new ResponseEntity<>(wasteAccount, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // Update a Waste Account
-//    @PutMapping("/{id}")
-//    public ResponseEntity<WasteAccount> updateWasteAccount(@PathVariable Long id, @RequestBody WasteAccount wasteAccount) {
-//        WasteAccount updatedAccount = wasteAccountService.updateWasteAccount(id, wasteAccount);
-//        return updatedAccount != null ? new ResponseEntity<>(updatedAccount, HttpStatus.OK)
-//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<WasteAccount> updateWasteAccount(@PathVariable Long id, @RequestBody WasteAccount wasteAccount) {
+        WasteAccount updatedAccount = wasteAccountService.updateWasteAccount(id, wasteAccount);
+        return updatedAccount != null ? new ResponseEntity<>(updatedAccount, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     // Delete a Waste Account
 //    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteWasteAccount(@PathVariable String id) { // Change Long to String
+//    public ResponseEntity<Void> deleteWasteAccount(@PathVariable Long id) { // Change Long to String
 //        boolean isDeleted = wasteAccountService.deleteWasteAccount(id);
 //        return isDeleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
 //                : new ResponseEntity<>(HttpStatus.NOT_FOUND);

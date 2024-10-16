@@ -9,7 +9,6 @@ import org.trash.smartbe.repository.ResidentDAO;
 
 import java.util.List;
 
-
 @Repository
 @Transactional
 public class ResidentDAOImpl implements ResidentDAO {
@@ -23,7 +22,7 @@ public class ResidentDAOImpl implements ResidentDAO {
     }
 
     @Override
-    public Resident findById(String residentId) {
+    public Resident findById(Long residentId) {
         return entityManager.find(Resident.class, residentId);
     }
 
@@ -34,10 +33,25 @@ public class ResidentDAOImpl implements ResidentDAO {
     }
 
     @Override
-    public void deleteById(String residentId) {
+    public void deleteById(Long residentId) {
         Resident resident = findById(residentId);
         if (resident != null) {
             entityManager.remove(resident);
         }
+    }
+
+    @Override
+    public Resident update(Long residentId, Resident updatedResident) {
+        Resident existingResident = findById(residentId);
+        if (existingResident != null) {
+            existingResident.setName(updatedResident.getName());
+            existingResident.setContactInfo(updatedResident.getContactInfo());
+            existingResident.setWasteAccount(updatedResident.getWasteAccount());
+            existingResident.setSpecialCollections(updatedResident.getSpecialCollections());
+            existingResident.setRegistrationDate(updatedResident.getRegistrationDate());
+            entityManager.merge(existingResident);
+            return existingResident;
+        }
+        return null;
     }
 }

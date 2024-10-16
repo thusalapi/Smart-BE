@@ -22,7 +22,7 @@ public class WasteAccountDAOImpl implements WasteAccountDAO {
     }
 
     @Override
-    public WasteAccount findById(String accountId) {
+    public WasteAccount findById(Long accountId) { // Changed from String to Long
         return entityManager.find(WasteAccount.class, accountId);
     }
 
@@ -33,10 +33,25 @@ public class WasteAccountDAOImpl implements WasteAccountDAO {
     }
 
     @Override
-    public void deleteById(String accountId) {
+    public void deleteById(Long accountId) { // Changed from String to Long
         WasteAccount wasteAccount = findById(accountId);
         if (wasteAccount != null) {
             entityManager.remove(wasteAccount);
         }
+    }
+
+    @Override
+    public WasteAccount update(Long accountId, WasteAccount updatedWasteAccount) { // Added update method
+        WasteAccount existingAccount = findById(accountId);
+        if (existingAccount != null) {
+            // Update the fields with the new values
+            existingAccount.setAddress(updatedWasteAccount.getAddress());
+            // Update any other fields if needed
+
+            // Merge the updated account object
+            entityManager.merge(existingAccount);
+            return existingAccount;
+        }
+        return null; // or throw an exception if you prefer
     }
 }

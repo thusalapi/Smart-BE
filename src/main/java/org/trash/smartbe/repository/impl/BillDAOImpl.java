@@ -22,7 +22,7 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    public Bill findById(String billId) {
+    public Bill findById(Long billId) {
         return entityManager.find(Bill.class, billId);
     }
 
@@ -33,7 +33,21 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    public void deleteById(String billId) {
+    public Bill update(Long billId, Bill updatedBill) {
+        Bill existingBill = findById(billId);
+        if (existingBill != null) {
+            existingBill.setDate(updatedBill.getDate());
+            existingBill.setAmount(updatedBill.getAmount());
+            existingBill.setWasteAccount(updatedBill.getWasteAccount());
+
+            entityManager.merge(existingBill);
+            return existingBill;
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long billId) {
         Bill bill = findById(billId);
         if (bill != null) {
             entityManager.remove(bill);

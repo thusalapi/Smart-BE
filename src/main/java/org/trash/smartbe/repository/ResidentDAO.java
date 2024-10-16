@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface ResidentDAO {
     List<Resident> findAll();
-    Resident findById(String residentId);
+    Resident findById(Long residentId);
     Resident save(Resident resident);
-    void deleteById(String residentId);
+    void deleteById(Long residentId);
+    Resident update(Long residentId, Resident updatedResident);
 }

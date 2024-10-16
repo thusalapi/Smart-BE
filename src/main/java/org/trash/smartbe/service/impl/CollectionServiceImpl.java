@@ -24,7 +24,7 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public Collection getCollectionById(String collectionId) {
+    public Collection getCollectionById(Long collectionId) { // Changed from String to Long
         return collectionDAO.findById(collectionId);
     }
 
@@ -34,7 +34,19 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public void deleteCollection(String collectionId) {
+    public void deleteCollection(Long collectionId) { // Changed from String to Long
         collectionDAO.deleteById(collectionId);
+    }
+
+    @Override
+    public Collection updateCollection(Long collectionId, Collection updatedCollection) { // Added update method
+        Collection existingCollection = collectionDAO.findById(collectionId);
+        if (existingCollection != null) {
+            // Update fields from updatedCollection to existingCollection
+            existingCollection.setCollectedDate(updatedCollection.getCollectedDate());
+            existingCollection.setWasteBin(updatedCollection.getWasteBin()); // Optional, depending on your use case
+            return collectionDAO.save(existingCollection); // Save the updated collection
+        }
+        return null; // or throw an exception if preferred
     }
 }

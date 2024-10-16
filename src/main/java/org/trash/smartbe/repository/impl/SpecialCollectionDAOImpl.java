@@ -22,8 +22,8 @@ public class SpecialCollectionDAOImpl implements SpecialCollectionDAO {
     }
 
     @Override
-    public SpecialCollection findById(String scid) {
-        return entityManager.find(SpecialCollection.class, scid);
+    public SpecialCollection findById(Long scId) { // Changed from String to Long
+        return entityManager.find(SpecialCollection.class, scId);
     }
 
     @Override
@@ -33,10 +33,26 @@ public class SpecialCollectionDAOImpl implements SpecialCollectionDAO {
     }
 
     @Override
-    public void deleteById(String scid) {
-        SpecialCollection specialCollection = findById(scid);
+    public void deleteById(Long scId) { // Changed from String to Long
+        SpecialCollection specialCollection = findById(scId);
         if (specialCollection != null) {
             entityManager.remove(specialCollection);
         }
+    }
+
+    @Override
+    public SpecialCollection update(Long scId, SpecialCollection updatedSpecialCollection) { // Changed from String to Long
+        SpecialCollection existingSpecialCollection = findById(scId);
+        if (existingSpecialCollection != null) {
+            // Update the fields with the new values
+            existingSpecialCollection.setAdditionalCost(updatedSpecialCollection.getAdditionalCost());
+            existingSpecialCollection.setScheduledDate(updatedSpecialCollection.getScheduledDate());
+            existingSpecialCollection.setResident(updatedSpecialCollection.getResident());
+
+            // Merge the updated special collection object
+            entityManager.merge(existingSpecialCollection);
+            return existingSpecialCollection;
+        }
+        return null; // or throw an exception if you prefer
     }
 }

@@ -22,7 +22,7 @@ public class WasteBinDAOImpl implements WasteBinDAO {
     }
 
     @Override
-    public WasteBin findById(String binId) {
+    public WasteBin findById(Long binId) { // Changed from String to Long
         return entityManager.find(WasteBin.class, binId);
     }
 
@@ -33,10 +33,27 @@ public class WasteBinDAOImpl implements WasteBinDAO {
     }
 
     @Override
-    public void deleteById(String binId) {
+    public void deleteById(Long binId) { // Changed from String to Long
         WasteBin wasteBin = findById(binId);
         if (wasteBin != null) {
             entityManager.remove(wasteBin);
         }
+    }
+
+    @Override
+    public WasteBin update(Long binId, WasteBin updatedWasteBin) { // Added update method
+        WasteBin existingWasteBin = findById(binId);
+        if (existingWasteBin != null) {
+            // Update fields of the existing waste bin
+            existingWasteBin.setWasteType(updatedWasteBin.getWasteType());
+            existingWasteBin.setMaxSize(updatedWasteBin.getMaxSize());
+            existingWasteBin.setCurrentLevel(updatedWasteBin.getCurrentLevel());
+            existingWasteBin.setWasteAccount(updatedWasteBin.getWasteAccount()); // If you want to update the associated WasteAccount
+
+            // Merge the updated waste bin object
+            entityManager.merge(existingWasteBin);
+            return existingWasteBin;
+        }
+        return null; // or throw an exception if you prefer
     }
 }

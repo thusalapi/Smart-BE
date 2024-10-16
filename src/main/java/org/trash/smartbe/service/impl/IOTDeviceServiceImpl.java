@@ -24,7 +24,7 @@ public class IOTDeviceServiceImpl implements IOTDeviceService {
     }
 
     @Override
-    public IOTDevice getDeviceById(String deviceId) {
+    public IOTDevice getDeviceById(Long deviceId) { // Changed from String to Long
         return iotDeviceDAO.findById(deviceId);
     }
 
@@ -34,7 +34,20 @@ public class IOTDeviceServiceImpl implements IOTDeviceService {
     }
 
     @Override
-    public void deleteDevice(String deviceId) {
+    public void deleteDevice(Long deviceId) { // Changed from String to Long
         iotDeviceDAO.deleteById(deviceId);
+    }
+
+    @Override
+    public IOTDevice updateDevice(Long deviceId, IOTDevice updatedDevice) { // Added update method
+        IOTDevice existingDevice = iotDeviceDAO.findById(deviceId);
+        if (existingDevice != null) {
+            // Update fields from updatedDevice to existingDevice
+            existingDevice.setStatus(updatedDevice.isStatus());
+            existingDevice.setReadWasteLevel(updatedDevice.getReadWasteLevel());
+            existingDevice.setWasteBin(updatedDevice.getWasteBin()); // Optional, depending on your use case
+            return iotDeviceDAO.save(existingDevice); // Save the updated device
+        }
+        return null; // or throw an exception if preferred
     }
 }

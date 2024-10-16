@@ -24,7 +24,7 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public Resident getResidentById(String residentId) {
+    public Resident getResidentById(Long residentId) { // Changed from String to Long
         return residentDAO.findById(residentId);
     }
 
@@ -34,7 +34,21 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public void deleteResident(String residentId) {
+    public void deleteResident(Long residentId) { // Changed from String to Long
         residentDAO.deleteById(residentId);
+    }
+
+    @Override
+    public Resident updateResident(Long residentId, Resident updatedResident) { // Added update method
+        Resident existingResident = residentDAO.findById(residentId);
+        if (existingResident != null) {
+            existingResident.setName(updatedResident.getName());
+            existingResident.setContactInfo(updatedResident.getContactInfo());
+            existingResident.setWasteAccount(updatedResident.getWasteAccount()); // Optional, depending on your use case
+            existingResident.setSpecialCollections(updatedResident.getSpecialCollections()); // Optional, depending on your use case
+            existingResident.setRegistrationDate(updatedResident.getRegistrationDate()); // Optional, depending on your use case
+            return residentDAO.save(existingResident); // Save the updated resident
+        }
+        return null; // or throw an exception if preferred
     }
 }

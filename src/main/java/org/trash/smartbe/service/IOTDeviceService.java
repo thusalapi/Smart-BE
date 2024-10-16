@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface IOTDeviceService {
     List<IOTDevice> getAllDevices();
-    IOTDevice getDeviceById(String deviceId);
+    IOTDevice getDeviceById(Long deviceId); // Changed from String to Long
     IOTDevice createDevice(IOTDevice device);
-    void deleteDevice(String deviceId);
+    void deleteDevice(Long deviceId); // Changed from String to Long
+    IOTDevice updateDevice(Long deviceId, IOTDevice updatedDevice); // Added update method
 }

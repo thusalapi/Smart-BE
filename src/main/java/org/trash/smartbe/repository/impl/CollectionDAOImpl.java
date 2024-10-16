@@ -22,7 +22,7 @@ public class CollectionDAOImpl implements CollectionDAO {
     }
 
     @Override
-    public Collection findById(String collectionId) {
+    public Collection findById(Long collectionId) {
         return entityManager.find(Collection.class, collectionId);
     }
 
@@ -33,7 +33,20 @@ public class CollectionDAOImpl implements CollectionDAO {
     }
 
     @Override
-    public void deleteById(String collectionId) {
+    public Collection update(Long collectionId, Collection updatedCollection) {
+        Collection existingCollection = findById(collectionId);
+        if (existingCollection != null) {
+            existingCollection.setCollectedDate(updatedCollection.getCollectedDate());
+            existingCollection.setWasteBin(updatedCollection.getWasteBin());
+
+            entityManager.merge(existingCollection);
+            return existingCollection;
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long collectionId) {
         Collection collection = findById(collectionId);
         if (collection != null) {
             entityManager.remove(collection);
