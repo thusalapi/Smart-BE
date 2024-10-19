@@ -8,8 +8,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.trash.smartbe.payload.ResponseEntityDto;
 import org.trash.smartbe.dto.AuthenticationRequest;
+import org.trash.smartbe.model.User;
+import org.trash.smartbe.payload.ResponseEntityDto;
 import org.trash.smartbe.service.AuthService;
 import org.trash.smartbe.util.JwtUtil;
 
@@ -36,8 +37,10 @@ public class AuthServiceImpl implements AuthService {
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails);
+        Long userId = ((User) userDetails).getId();
+        final String jwt = jwtUtil.generateToken(userDetails, userId);
 
         return new ResponseEntityDto<>(HttpStatus.OK, "Login successful", jwt);
     }
+
 }
