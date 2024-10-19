@@ -15,6 +15,9 @@ public class Inquiry {
     @Column(nullable = false)
     private String subject;
 
+    @Column(nullable = false)
+    private String status;
+
     @Column(nullable = false, length = 1000)
     private String message;
 

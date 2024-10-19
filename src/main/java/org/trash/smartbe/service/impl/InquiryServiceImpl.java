@@ -38,6 +38,7 @@ public class InquiryServiceImpl implements InquiryService {
         Inquiry inquiry = new Inquiry();
         inquiry.setSubject(inquiryDTO.getSubject());
         inquiry.setMessage(inquiryDTO.getMessage());
+        inquiry.setStatus("PENDING");
         inquiry.setUser(user);
 
         Inquiry savedInquiry = inquiryRepository.save(inquiry);
@@ -76,6 +77,7 @@ public class InquiryServiceImpl implements InquiryService {
 
         existingInquiry.setSubject(inquiryDTO.getSubject());
         existingInquiry.setMessage(inquiryDTO.getMessage());
+        existingInquiry.setStatus("CLOSED");
 
         Inquiry updatedInquiry = inquiryRepository.save(existingInquiry);
         return new ResponseEntityDto(false, convertToDTO(updatedInquiry));
