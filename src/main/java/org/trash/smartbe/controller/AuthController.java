@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.trash.smartbe.dto.AuthenticationRequest;
 import org.trash.smartbe.dto.AuthenticationResponse;
+import org.trash.smartbe.model.User;
 import org.trash.smartbe.service.impl.CustomUserDetailsService;
 import org.trash.smartbe.util.JwtUtil;
 
@@ -39,7 +40,9 @@ public class AuthController {
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails);
+
+        Long userId = ((User) userDetails).getId();
+        final String jwt = jwtUtil.generateToken(userDetails, userId);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
