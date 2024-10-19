@@ -28,6 +28,10 @@ public class Resident {
     private String address;
 
     @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
+
+    @OneToOne
     @JoinColumn(name = "waste_account_id", unique = true)
     private WasteAccount wasteAccount;
 }
