@@ -6,6 +6,7 @@ import lombok.Data;
 public class InquiryDTO {
     private Long id;
     private String subject;
+    private String status;
     private String message;
     private String createdAt;
     private Long userId;
