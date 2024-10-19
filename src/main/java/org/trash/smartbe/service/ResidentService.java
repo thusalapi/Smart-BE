@@ -12,4 +12,6 @@ public interface ResidentService {
     ResponseEntityDto createResident(ResidentDTO residentDTO);
     ResponseEntityDto updateResident(Long id, ResidentDTO residentDTO);
     ResponseEntityDto deleteResident(Long id);
+    ResponseEntityDto registerResident(String username, ResidentDTO residentDTO);
+
 }

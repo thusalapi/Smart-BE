@@ -3,13 +3,16 @@ package org.trash.smartbe.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.trash.smartbe.common.payload.response.ResponseEntityDto;
 import org.trash.smartbe.dto.ResidentDTO;
 import org.trash.smartbe.model.Resident;
+import org.trash.smartbe.model.Role;
+import org.trash.smartbe.model.User;
 import org.trash.smartbe.model.WasteAccount;
 import org.trash.smartbe.repository.ResidentRepository;
+import org.trash.smartbe.repository.UserRepository;
 import org.trash.smartbe.repository.WasteAccountRepository;
 import org.trash.smartbe.service.ResidentService;
-import org.trash.smartbe.common.payload.response.ResponseEntityDto;
 import org.trash.smartbe.util.DTOConverter;
 
 import java.util.List;
@@ -26,6 +29,9 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Autowired
     private DTOConverter dtoConverter;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ResponseEntityDto getAllResidents() {
@@ -122,5 +128,36 @@ public class ResidentServiceImpl implements ResidentService {
         }
         residentRepository.deleteById(id);
         return new ResponseEntityDto("Resident deleted successfully", false);
+    }
+
+    @Override
+    public ResponseEntityDto registerResident(String username, ResidentDTO residentDTO) {
+        User user = userRepository.findByUsername(username)
+                .orElse(null);
+        if (user == null) {
+            return new ResponseEntityDto("User not found", true);
+        }
+
+        if (residentRepository.findByEmail(residentDTO.getEmail()).isPresent()) {
+            return new ResponseEntityDto("Email already in use", true);
+        }
+
+        Resident resident = dtoConverter.convertToResident(residentDTO);
+        resident.setUser(user);
+
+        if (residentDTO.getWasteAccountId() != null) {
+            WasteAccount wasteAccount = wasteAccountRepository.findById(residentDTO.getWasteAccountId())
+                    .orElse(null);
+            if (wasteAccount == null) {
+                return new ResponseEntityDto("WasteAccount not found", true);
+            }
+            resident.setWasteAccount(wasteAccount);
+        }
+
+        user.setRole(Role.RESIDENT);
+        userRepository.save(user);
+
+        Resident savedResident = residentRepository.save(resident);
+        return new ResponseEntityDto(false, dtoConverter.convertToResidentDTO(savedResident));
     }
 }
