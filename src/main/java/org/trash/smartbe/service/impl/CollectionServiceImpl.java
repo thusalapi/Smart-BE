@@ -126,8 +126,8 @@ public class CollectionServiceImpl implements CollectionService {
         collection.setFee(dto.getFee());
     }
 
-    private double calculateFee(Double weight) {
-        // Implement fee calculation logic based on weight
-        return weight * 0.5;
+    @Override
+    public double calculateFee(Double weight) {
+        return weight * 50;
     }
 }

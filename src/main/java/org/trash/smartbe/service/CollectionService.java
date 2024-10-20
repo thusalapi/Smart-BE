@@ -10,4 +10,5 @@ public interface CollectionService {
     ResponseEntityDto createCollection(CollectionDTO collectionDTO);
     ResponseEntityDto updateCollection(Long id, CollectionDTO collectionDTO);
     ResponseEntityDto deleteCollection(Long id);
+    double calculateFee(Double weight);
 }

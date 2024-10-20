@@ -27,6 +27,6 @@ public class WasteBin {
     private Boolean isRecyclable;
 
     @ManyToOne
-    @JoinColumn(name = "waste_account_id", nullable = true)
+    @JoinColumn(name = "waste_account_id", nullable = false)
     private WasteAccount wasteAccount;
 }
