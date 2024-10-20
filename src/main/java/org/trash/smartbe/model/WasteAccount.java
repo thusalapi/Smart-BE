@@ -1,4 +1,3 @@
-// WasteAccount.java
 package org.trash.smartbe.model;
 
 import jakarta.persistence.*;

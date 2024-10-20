@@ -59,12 +59,11 @@ public class DTOConverter {
 
     public WasteBin convertToWasteBin(WasteBinDTO dto) {
         WasteBin wasteBin = new WasteBin();
-        wasteBin.setId(dto.getId());
         wasteBin.setBinNumber(dto.getBinNumber());
         wasteBin.setCapacity(dto.getCapacity());
         wasteBin.setCurrentLevel(dto.getCurrentLevel());
+        wasteBin.setWasteCategory(dto.getWasteCategory());
         wasteBin.setIsRecyclable(dto.getIsRecyclable());
-        dto.setWasteCategory(wasteBin.getWasteCategory());
         return wasteBin;
     }
 

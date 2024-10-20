@@ -68,8 +68,8 @@ public class WasteBinServiceImpl implements WasteBinService {
     }
 
     @Override
-    public ResponseEntityDto getWasteBinsByCategory(String wasteType) {
-        List<WasteBinDTO> wasteBins = wasteBinRepository.findByWasteCategory(wasteType).stream()
+    public ResponseEntityDto getWasteBinsByCategory(String wasteCategory) {
+        List<WasteBinDTO> wasteBins = wasteBinRepository.findByWasteCategory(wasteCategory).stream()
                 .map(dtoConverter::convertToWasteBinDTO)
                 .collect(Collectors.toList());
         return new ResponseEntityDto(false, wasteBins);
