@@ -1,4 +1,3 @@
-// WasteBinController.java
 package org.trash.smartbe.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class WasteBinController {
 
     @GetMapping("/waste-type/{wasteType}")
     public ResponseEntity<ResponseEntityDto> getWasteBinsByWasteType(@PathVariable String wasteType) {
-        return ResponseEntity.ok(wasteBinService.getWasteBinsByWasteType(wasteType));
+        return ResponseEntity.ok(wasteBinService.getWasteBinsByCategory(wasteType));
     }
 
     @PostMapping
@@ -58,5 +57,25 @@ public class WasteBinController {
     @PatchMapping("/{id}/level")
     public ResponseEntity<ResponseEntityDto> updateWasteBinLevel(@PathVariable Long id, @RequestParam Double newLevel) {
         return ResponseEntity.ok(wasteBinService.updateWasteBinLevel(id, newLevel));
+    }
+
+    @PatchMapping("/{id}/level/increase")
+    public ResponseEntity<ResponseEntityDto> increaseWasteBinLevel(@PathVariable Long id, @RequestParam Double increment) {
+        return ResponseEntity.ok(wasteBinService.increaseWasteLevel(id, increment));
+    }
+
+    @PostMapping("/{id}/collect")
+    public ResponseEntity<ResponseEntityDto> collectWaste(@PathVariable Long id) {
+        return ResponseEntity.ok(wasteBinService.collectWaste(id));
+    }
+
+    @GetMapping("/{id}/history")
+    public ResponseEntity<ResponseEntityDto> getWasteBinHistory(@PathVariable Long id) {
+        return ResponseEntity.ok(wasteBinService.getWasteBinHistory(id));
+    }
+
+    @GetMapping("/{id}/calculate-bill")
+    public ResponseEntity<ResponseEntityDto> calculateBill(@PathVariable Long id) {
+        return ResponseEntity.ok(wasteBinService.calculateBill(id));
     }
 }

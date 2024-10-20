@@ -1,4 +1,3 @@
-// WasteBinDTO.java
 package org.trash.smartbe.dto;
 
 import lombok.Data;
@@ -9,6 +8,7 @@ public class WasteBinDTO {
     private String binNumber;
     private Double capacity;
     private Double currentLevel;
-    private String wasteType;
+    private String wasteCategory;
+    private Boolean isRecyclable;
     private Long wasteAccountId;
 }

@@ -50,7 +50,9 @@ public class DTOConverter {
         dto.setBinNumber(wasteBin.getBinNumber());
         dto.setCapacity(wasteBin.getCapacity());
         dto.setCurrentLevel(wasteBin.getCurrentLevel());
-        dto.setWasteType(wasteBin.getWasteType());
+        dto.setCurrentLevel(wasteBin.getCurrentLevel());
+        dto.setWasteCategory(wasteBin.getWasteCategory());
+        dto.setIsRecyclable(wasteBin.getIsRecyclable());
         dto.setWasteAccountId(wasteBin.getWasteAccount().getId());
         return dto;
     }
@@ -61,8 +63,8 @@ public class DTOConverter {
         wasteBin.setBinNumber(dto.getBinNumber());
         wasteBin.setCapacity(dto.getCapacity());
         wasteBin.setCurrentLevel(dto.getCurrentLevel());
-        wasteBin.setWasteType(dto.getWasteType());
-        // WasteAccount should be set separately
+        wasteBin.setIsRecyclable(dto.getIsRecyclable());
+        dto.setWasteCategory(wasteBin.getWasteCategory());
         return wasteBin;
     }
 

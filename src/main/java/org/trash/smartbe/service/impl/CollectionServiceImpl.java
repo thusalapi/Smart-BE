@@ -56,23 +56,23 @@ public class CollectionServiceImpl implements CollectionService {
     @Override
     @Transactional
     public ResponseEntityDto createCollection(CollectionDTO collectionDTO) {
-        try {
-            Collection collection = convertToEntity(collectionDTO);
-            WasteBin wasteBin = wasteBinRepository.findById(collectionDTO.getWasteBinId())
-                    .orElseThrow(() -> new ResourceNotFoundException("WasteBin not found"));
+        WasteBin wasteBin = wasteBinRepository.findById(collectionDTO.getWasteBinId())
+                .orElseThrow(() -> new ResourceNotFoundException("WasteBin not found"));
 
-            // Update waste bin level to zero
-            wasteBinRepository.updateCurrentLevelToZero(wasteBin.getId());
+        // Create a new Collection entity from DTO
+        Collection collection = convertToEntity(collectionDTO);
 
-            // Calculate fee based on weight
-            double fee = calculateFee(collectionDTO.getWeight());
-            collection.setFee(fee);
+        // Update waste bin level to zero
+        wasteBin.setCurrentLevel(0.0);
+        wasteBinRepository.save(wasteBin);
 
-            Collection savedCollection = collectionRepository.save(collection);
-            return new ResponseEntityDto(false, convertToDTO(savedCollection));
-        } catch (ResourceNotFoundException e) {
-            return new ResponseEntityDto(e.getMessage(), true);
-        }
+        // Calculate fee based on weight
+        double fee = calculateFee(collectionDTO.getWeight());
+        collection.setFee(fee);
+        collection.setWasteBin(wasteBin); // Associate the WasteBin
+
+        Collection savedCollection = collectionRepository.save(collection);
+        return new ResponseEntityDto(false, convertToDTO(savedCollection));
     }
 
     @Override
@@ -128,6 +128,6 @@ public class CollectionServiceImpl implements CollectionService {
 
     private double calculateFee(Double weight) {
         // Implement fee calculation logic based on weight
-        return weight * 0.5; // Example: $0.50 per kg
+        return weight * 0.5;
     }
 }
