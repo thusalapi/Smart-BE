@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.trash.smartbe.common.payload.response.ResponseEntityDto;
 import org.trash.smartbe.dto.WasteBinDTO;
+import org.trash.smartbe.model.Collection;
 import org.trash.smartbe.model.WasteAccount;
 import org.trash.smartbe.model.WasteBin;
 import org.trash.smartbe.model.WasteBinHistory;
+import org.trash.smartbe.repository.CollectionRepository;
 import org.trash.smartbe.repository.WasteAccountRepository;
 import org.trash.smartbe.repository.WasteBinHistoryRepository;
 import org.trash.smartbe.repository.WasteBinRepository;
+import org.trash.smartbe.service.CollectionService;
 import org.trash.smartbe.service.WasteBinService;
 import org.trash.smartbe.util.DTOConverter;
 
@@ -31,6 +34,12 @@ public class WasteBinServiceImpl implements WasteBinService {
 
     @Autowired
     private WasteBinHistoryRepository wasteBinHistoryRepository;
+
+    @Autowired
+    private CollectionRepository collectionRepository;
+
+    @Autowired
+    private CollectionService collectionService;
 
 
     @Override
@@ -158,22 +167,35 @@ public class WasteBinServiceImpl implements WasteBinService {
             return new ResponseEntityDto("WasteBin not found", true);
         }
 
-        // Record the current level before resetting
-        WasteBinHistory history = new WasteBinHistory();
-        history.setWasteBin(wasteBin);
-        history.setWasteLevel(wasteBin.getCurrentLevel());
-        history.setCollectedAt(LocalDateTime.now());
-        history.setWasteCategory(wasteBin.getWasteCategory());
+        double collectedWeight = wasteBin.getCurrentLevel();
+        if (collectedWeight <= 0) {
+            return new ResponseEntityDto("No waste to collect", true);
+        }
+
+        Collection collection = new Collection();
+        collection.setWasteBin(wasteBin);
+        collection.setCollectionTime(LocalDateTime.now());
+        collection.setWeight(collectedWeight);
+
+        double fee = collectionService.calculateFee(collectedWeight);
+        collection.setFee(fee);
+
+        collectionRepository.save(collection);
 
         // Save the history
+        WasteBinHistory history = new WasteBinHistory();
+        history.setWasteBin(wasteBin);
+        history.setWasteLevel(collectedWeight);
+        history.setCollectedAt(LocalDateTime.now());
+        history.setWasteCategory(wasteBin.getWasteCategory());
         wasteBinHistoryRepository.save(history);
 
-        // Reset the current level to 0
         wasteBin.setCurrentLevel(0.0);
         wasteBinRepository.save(wasteBin);
 
         return new ResponseEntityDto("Waste collected successfully", false);
     }
+
 
     @Override
     public ResponseEntityDto getWasteBinHistory(Long id) {
@@ -190,9 +212,9 @@ public class WasteBinServiceImpl implements WasteBinService {
 
         double billAmount = 0.0;
         if (wasteBin.getIsRecyclable()) {
-            billAmount = 0.0; // Bill amount is 0 for recyclable waste
+            billAmount = 0.0;
         } else {
-            // Implement your own logic for non-recyclable types
+            billAmount = 500.0;
         }
 
         return new ResponseEntityDto(false, billAmount);

@@ -11,6 +11,4 @@ public class CollectionDTO {
     private LocalDateTime collectionTime;
     private Double weight;
     private Double fee;
-
-    // Getters and setters
 }
