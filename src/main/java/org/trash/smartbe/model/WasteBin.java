@@ -1,4 +1,3 @@
-// WasteBin.java
 package org.trash.smartbe.model;
 
 import jakarta.persistence.*;
@@ -22,9 +21,12 @@ public class WasteBin {
     private Double currentLevel;
 
     @Column(nullable = false)
-    private String wasteType;
+    private String wasteCategory;
+
+    @Column(nullable = false)
+    private Boolean isRecyclable;
 
     @ManyToOne
-    @JoinColumn(name = "waste_account_id", nullable = false)
+    @JoinColumn(name = "waste_account_id", nullable = true)
     private WasteAccount wasteAccount;
 }
