@@ -61,7 +61,7 @@ public class ResponseEntityDto {
         this.results = results;
     }
 
-    private static class Acknowledgement {
+    public static class Acknowledgement {
         private String message;
 
         public Acknowledgement(String message) {
