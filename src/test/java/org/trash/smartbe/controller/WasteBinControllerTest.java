@@ -43,7 +43,7 @@ public class WasteBinControllerTest {
 
     @Test
     public void testGetWasteBinById_Success() {
-        WasteBinDTO wasteBinDTO = new WasteBinDTO(); // Fill with necessary fields
+        WasteBinDTO wasteBinDTO = new WasteBinDTO();
         ResponseEntityDto responseDto = new ResponseEntityDto(false, wasteBinDTO);
         when(wasteBinService.getWasteBinById(1L)).thenReturn(responseDto);
 
@@ -67,7 +67,7 @@ public class WasteBinControllerTest {
 
     @Test
     public void testCreateWasteBin_Success() {
-        WasteBinDTO wasteBinDTO = new WasteBinDTO(); // Fill with necessary fields
+        WasteBinDTO wasteBinDTO = new WasteBinDTO();
         ResponseEntityDto responseDto = new ResponseEntityDto(false, wasteBinDTO);
         when(wasteBinService.createWasteBin(any(WasteBinDTO.class))).thenReturn(responseDto);
 
@@ -80,7 +80,7 @@ public class WasteBinControllerTest {
 
     @Test
     public void testUpdateWasteBin_Success() {
-        WasteBinDTO wasteBinDTO = new WasteBinDTO(); // Fill with necessary fields
+        WasteBinDTO wasteBinDTO = new WasteBinDTO();
         ResponseEntityDto responseDto = new ResponseEntityDto(false, wasteBinDTO);
         when(wasteBinService.updateWasteBin(anyLong(), any(WasteBinDTO.class))).thenReturn(responseDto);
 
@@ -114,5 +114,4 @@ public class WasteBinControllerTest {
         assertEquals("WasteBin not found", ((ResponseEntityDto.Acknowledgement) response.getBody().getResults().get(0)).getMessage());
     }
 
-    // Additional test cases for remaining endpoints...
 }
